@@ -4,6 +4,25 @@ const counterEl = document.getElementById("counter");
 const incrementEl = document.getElementById("increment");
 const decrementEl = document.getElementById("decrement");
 
+// actions
+
+const INCREMENT = "increment";
+const DECREMENT = "decrement";
+
+const increment = () => {
+  return {
+    type: INCREMENT,
+    payload: 5,
+  };
+};
+
+const decrement = () => {
+  return {
+    type: DECREMENT,
+    payload: 2,
+  };
+};
+
 const initalState = {
   value: 0,
 };
@@ -11,11 +30,11 @@ const initalState = {
 // Create reducer function
 
 function createReducer(state = initalState, action) {
-  if (action.type === "increment") {
-    return { ...state, value: state.value + 1 };
+  if (action.type === INCREMENT) {
+    return { ...state, value: state.value + action.payload };
   }
-  if (action.type === "decrement") {
-    return { ...state, value: state.value - 1 };
+  if (action.type === DECREMENT) {
+    return { ...state, value: state.value - action.payload };
   } else {
     return state;
   }
@@ -27,6 +46,7 @@ const store = Redux.createStore(createReducer);
 
 const render = () => {
   const state = store.getState();
+
   counterEl.innerText = state.value.toString();
 };
 
@@ -37,13 +57,9 @@ store.subscribe(render);
 
 //Listen event handler
 incrementEl.addEventListener("click", () => {
-  store.dispatch({
-    type: "increment",
-  });
+  store.dispatch(increment());
 });
 
 decrementEl.addEventListener("click", () => {
-  store.dispatch({
-    type: "decrement",
-  });
+  store.dispatch(decrement());
 });
