@@ -1,5 +1,9 @@
 //initial state
 
+const counterEl = document.getElementById("counter");
+const incrementEl = document.getElementById("increment");
+const decrementEl = document.getElementById("decrement");
+
 const initalState = {
   value: 0,
 };
@@ -16,3 +20,30 @@ function createReducer(state = initalState, action) {
     return state;
   }
 }
+
+// create store
+
+const store = Redux.createStore(createReducer);
+
+const render = () => {
+  const state = store.getState();
+  counterEl.innerText = state.value.toString();
+};
+
+//Update state Initially
+render();
+
+store.subscribe(render);
+
+//Listen event handler
+incrementEl.addEventListener("click", () => {
+  store.dispatch({
+    type: "increment",
+  });
+});
+
+decrementEl.addEventListener("click", () => {
+  store.dispatch({
+    type: "decrement",
+  });
+});
