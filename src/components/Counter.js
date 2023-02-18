@@ -1,33 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
+import Button from "./Button";
+import Count from "./Count";
 
-const Counter = () => {
-  const [count, setCount] = useState(0);
-
-  const increment = () => {
-    setCount((prevCount) => prevCount + 1);
-  };
-  const decrement = () => {
-    if (count === 0) {
-      return;
-    }
-    setCount((prevCount) => prevCount - 1);
-  };
+const Counter = ({ id, increment, decrement, count }) => {
   return (
-    <div class="p-4 h-auto flex flex-col items-center justify-center space-y-5 bg-white rounded shadow">
-      <div class="text-2xl font-semibold">{count}</div>
-      <div class="flex space-x-3">
-        <button
-          onClick={increment}
-          class="bg-indigo-400 text-white px-3 py-2 rounded shadow"
-        >
-          Increment
-        </button>
-        <button
-          onClick={decrement}
-          class="bg-red-400 text-white px-3 py-2 rounded shadow"
-        >
-          Decrement
-        </button>
+    <div className="p-4 h-auto flex flex-col items-center justify-center space-y-5 bg-white rounded shadow">
+      <Count count={count} />
+      <div className="flex space-x-3">
+        <Button label={"Increment"} handler={() => increment(id)} />
+        <Button label={"Decrement"} handler={() => decrement(id)} />
       </div>
     </div>
   );
