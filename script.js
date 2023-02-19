@@ -1,90 +1,31 @@
-//initial state
+const matchContainerEl = document.getElementById("match-container");
+const addNewMatchEl = document.getElementById("btn-add-match");
+let match_count = 1;
+addNewMatchEl.addEventListener("click", () => {
+  match_count++;
+  console.log("clicked");
+  let div = document.createElement("div");
+  div.innerHTML = `<div class="match" id="match">
+                    <div class="wrapper">
+                        <button class="lws-delete">
+                            <img src="./image/delete.svg" alt="" />
+                        </button>
+                        <h3 class="lws-matchName">Match ${match_count}</h3>
+                    </div>
+                    <div class="inc-dec">
+                        <form class="incrementForm">
+                            <h4>Increment</h4>
+                            <input type="number" name="increment" class="lws-increment" id="increment" />
+                        </form>
+                        <form class="decrementForm" id="decrement">
+                            <h4>Decrement</h4>
+                            <input type="number" name="decrement" class="lws-decrement" />
+                        </form>
+                    </div>
+                    <div class="numbers">
+                        <h2 class="lws-singleResult" id="total">0</h2>
+                    </div>
+                </div>`;
 
-const counterEl = document.getElementById("counter");
-const incrementEl = document.getElementById("increment");
-const decrementEl = document.getElementById("decrement");
-const addEl = document.getElementById("add");
-
-// actions
-
-const INCREMENT = "increment";
-const DECREMENT = "decrement";
-const ADD = "add";
-
-const increment = (value) => {
-  return {
-    type: INCREMENT,
-    payload: value,
-  };
-};
-
-const decrement = (value) => {
-  return {
-    type: DECREMENT,
-    payload: value,
-  };
-};
-
-const add = (value) => {
-  return {
-    type: ADD,
-    payload: value,
-  };
-};
-
-const initalState = {
-  value: 0,
-  properties: {
-    a: 3,
-    b: 5,
-  },
-};
-
-// Create reducer function
-
-function createReducer(state = initalState, action) {
-  if (action.type === INCREMENT) {
-    return { ...state, value: state.value + action.payload };
-  }
-  if (action.type === DECREMENT) {
-    return { ...state, value: state.value - action.payload };
-  }
-  if (action.type === ADD) {
-    return {
-      ...state,
-      properties: {
-        ...state.properties,
-        b: state.properties.b + action.payload,
-      },
-    };
-  } else {
-    return state;
-  }
-}
-// create store
-
-const store = Redux.createStore(createReducer);
-
-const render = () => {
-  const state = store.getState();
-
-  counterEl.innerText = state.value.toString();
-};
-
-//Update state Initially
-render();
-
-store.subscribe(render);
-
-//Listen event handler
-incrementEl.addEventListener("click", () => {
-  store.dispatch(increment(50));
-});
-
-decrementEl.addEventListener("click", () => {
-  store.dispatch(decrement(2));
-});
-
-addEl.addEventListener("click", () => {
-  store.dispatch(add(100));
+  matchContainerEl.appendChild(div);
 });
