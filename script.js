@@ -1,120 +1,121 @@
-const matchContainerEl = document.getElementById("match-container");
-const addNewMatchEl = document.getElementById("btn-add-match");
-const totalScoreEl = document.getElementById("total");
-const resetEl = document.getElementById("btn-reset");
-const inputIncrementEl = document.getElementById("increment");
-const inputDecrementtEl = document.getElementById("decrement");
-
-//Initial match count when button click increase by 1
-let match_count = 1;
-//Initial State
-
-const initalState = {
-  total: 0,
-  match_no: match_count,
-};
+const btnAddDivEl = document.getElementById("addMatch");
+const container = document.getElementById("container");
 
 //Actions
 const INCREMENT = "increment";
 const DECREMENT = "decrement";
-const RESET = "reset";
-const ADD_NEW_MATCH = "addMatch";
-
-const increment = (value) => {
-  return {
-    type: INCREMENT,
-    payload: value,
-  };
+const ADD_DIV = "addDiv";
+let matchId = 1;
+// Intitial State
+const initialState = {
+  divs: [],
+  match_id: 1,
+  score: 0,
 };
 
-const decrement = (value) => {
-  return {
-    type: DECREMENT,
-    payload: value,
-  };
-};
+//Reducer
+function createReducer(state = initialState, action) {
+  console.log(action);
 
-const addNewMatch = (value) => {
-  return {
-    type: ADD_NEW_MATCH,
-    payload: value,
-  };
-};
-
-// Create reducer function
-
-function createReducer(state = initalState, action) {
-  if (action.type === INCREMENT) {
-    return { ...state, value: state.value + action.payload };
-  }
-  if (action.type === DECREMENT) {
-    return { ...state, value: state.value - action.payload };
-  }
-  if (action.type === ADD) {
-    return {
-      ...state,
-      properties: {
-        ...state.properties,
-        b: state.properties.b + action.payload,
-      },
-    };
-  } else {
-    return state;
+  switch (action.type) {
+    case "ADD_DIV":
+      // Add a new div to the state
+      return {
+        ...state,
+        divs: [...state.divs, action.payload],
+      };
+    default:
+      return state;
   }
 }
-//Add new match div usign button click
-addNewMatchEl.addEventListener("click", () => {
-  match_count++;
-  console.log("clicked");
-  let div = document.createElement("div");
-  div.innerHTML = `<div class="match" id="match-${match_count}">
+
+// Create a new Redux store with the divReducer function
+
+// create store
+
+const store = Redux.createStore(createReducer);
+
+const render = () => {
+  const state = store.getState();
+  console.log(state);
+  const { divs, match_id } = state;
+
+  divs.forEach((div) => container.appendChild(div));
+
+  //scoreEl.innerText = state.value.toString();
+};
+
+//Update state Initially
+render();
+
+store.subscribe(render);
+//Button event listner
+btnAddDivEl.addEventListener("click", () => {
+  matchId++;
+  console.log("cli");
+  // Create a new div element
+  const div = document.createElement("div");
+  div.setAttribute("class", "match");
+  div.innerHTML = ` 
                     <div class="wrapper">
                         <button class="lws-delete">
                             <img src="./image/delete.svg" alt="" />
                         </button>
-                        <h3 class="lws-matchName">Match ${match_count}</h3>
+                        <h3 class="lws-matchName">Match <span id="match_id">${matchId}</span></h3>
                     </div>
                     <div class="inc-dec">
                         <form class="incrementForm">
                             <h4>Increment</h4>
-                            <input type="number" name="increment" class="lws-increment" id="increment" />
+                            <input type="number" name="increment" class="lws-increment" />
                         </form>
-                        <form class="decrementForm" id="decrement">
+                        <form class="decrementForm">
                             <h4>Decrement</h4>
                             <input type="number" name="decrement" class="lws-decrement" />
                         </form>
                     </div>
                     <div class="numbers">
-                        <h2 class="lws-singleResult" id="total-match-${match_count}">0</h2>
+                        <h2 class="lws-singleResult">120</h2>
                     </div>
-                </div>`;
+                `;
 
-  matchContainerEl.appendChild(div);
+  // Dispatch an action to add the new div to the state
+  store.dispatch({
+    type: "ADD_DIV",
+    payload: div,
+  });
 });
 
-// Take the input value from increment field
-inputIncrementEl.addEventListener("keypress", function (event) {
-  // If the user presses the "Enter" key on the keyboard
-  if (event.key === "Enter") {
-    // Cancel the default action, if needed
-    event.preventDefault();
-    // Trigger the button element with a click
-    console.log(event.target.value);
-    let currentValue = event.target.value;
-    increment(currentValue);
-  }
-});
+function submit() {
+  console.log("cli");
+}
 
-// Take the input value from Decrement field
+//first div
+const firstDiv = document.createElement("div");
+firstDiv.setAttribute("class", "match");
+firstDiv.innerHTML = `
+                 
 
-inputDecrementtEl.addEventListener("keypress", function (event) {
-  // If the user presses the "Enter" key on the keyboard
-  if (event.key === "Enter") {
-    // Cancel the default action, if needed
-    event.preventDefault();
-    // Trigger the button element with a click
-    console.log(event.target.value);
-    let currentValue = event.target.value;
-    increment(currentValue);
-  }
-});
+                    <div class="wrapper">
+                        <button class="lws-delete">
+                            <img src="./image/delete.svg" alt="" />
+                        </button>
+                        <h3 class="lws-matchName">Match <span id="match_id">${matchId}</span></h3>
+                    </div>
+                    <div class="inc-dec">
+                        <form class="incrementForm">
+                            <h4>Increment</h4>
+                            <input type="number" name="increment" class="lws-increment" />
+                        </form>
+                        <form class="decrementForm">
+                            <h4>Decrement</h4>
+                            <input type="number" name="decrement" class="lws-decrement" />
+                        </form>
+                    </div>
+                    <div class="numbers">
+                        <h2 class="lws-singleResult">120</h2>
+                    </div>
+             
+                `;
+console.log(firstDiv);
+
+container.appendChild(firstDiv);
