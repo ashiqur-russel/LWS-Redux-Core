@@ -4,17 +4,18 @@ const initialState = {
   value: 9,
 };
 const counterReducer = (state = initialState, action) => {
+  console.log(action);
   switch (action.type) {
     case INCREMENT: {
       return {
         ...state,
-        value: state.value + 1,
+        value: state.value + action.payload,
       };
     }
     case DECREMNET: {
       return {
         ...state,
-        value: state.value - 1,
+        value: state.value - action.payload,
       };
     }
 
