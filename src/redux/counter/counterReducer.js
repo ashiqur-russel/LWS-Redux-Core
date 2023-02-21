@@ -1,7 +1,7 @@
 import { DECREMNET, INCREMENT } from "./actionTypes";
 
 const initialState = {
-  value: 9,
+  value: 0,
 };
 const counterReducer = (state = initialState, action) => {
   console.log(action);
@@ -9,13 +9,13 @@ const counterReducer = (state = initialState, action) => {
     case INCREMENT: {
       return {
         ...state,
-        value: state.value + action.payload,
+        value: state.value + 1,
       };
     }
     case DECREMNET: {
       return {
         ...state,
-        value: state.value - action.payload,
+        value: state.value - 1,
       };
     }
 
