@@ -1,7 +1,7 @@
 import { DECREMNET, INCREMENT } from "./actionTypes";
 
 const initialState = {
-  value: 0,
+  value: 9,
 };
 const counterReducer = (state = initialState, action) => {
   switch (action.type) {
